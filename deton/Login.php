@@ -19,14 +19,12 @@ if(isset($_POST["username"]) && isset($_POST["password"])) {
 		die ('Can\'t use deton : ' . mysql_error());
 	}
 	
-	/* $result=$conn->query("SELECT * FROM users WHERE Username= '" .  $_POST["username"] . "'"); */
-	
-	/*$result=$conn->query("SELECT Username,Password FROM users WHERE Username = '" . $_POST["username"] . "' . AND  Password = '" . $_POST["password"] . "'"); */
-	
 	$result=$conn->query("SELECT * FROM users WHERE Username= '" .  $_POST["username"] . "' AND Password = '" .  $_POST["password"] . "'");
 	if($result->num_rows > 0)
 	   {
+		    $row = $result->fetch_assoc();
 			$credentials = true;
+			$_SESSION["id"] = $row["Id"];
 			$newURL = "http://localhost/deton/";
 			header('Location: '.$newURL);
 	   }
