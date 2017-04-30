@@ -1,5 +1,5 @@
-
 <?php
+session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -32,7 +32,19 @@ $result = $conn->query($sql);
 	<meta charset="UTF-8">
 </head>
 <body>
-<?php include_once 'Navbar.php' ?>
+<?php 
+include 'OwnFunctions.php';
+if ($_SESSION["role"] == $_roleClient)
+{
+	include_once 'Navbar.php';	
+} else if ($_SESSION["role"] == $_roleAdmin)
+{	
+	include_once 'NavbarAdm.php';
+}
+?>
+<?php echo $_SESSION["id"] . "<br>" ;
+echo $_SESSION["role"];
+?>
 <div class="container">
 <table>
 	  <thead>

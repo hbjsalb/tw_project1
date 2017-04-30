@@ -1,3 +1,35 @@
+<?php
+session_start();
+if(isset($_POST["subject"]) && isset($_POST["contactText"])) {
+	$servername = "localhost";
+	$username = "root";
+	$password = "";
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	} 
+
+	// make deton the current db
+	$db_selected = mysqli_select_db($conn, "deton");
+	if (!$db_selected) {
+		die ('Can\'t use deton : ' . mysql_error());
+	}
+	
+	if (!empty($_POST["subject"]) && !empty($_POST["contactText"])) {
+		$nowFormat = date("Y.m.d");
+		$sql = "INSERT INTO messages (Subject, Content, Username, Date_reception) VALUES ('" . $_POST["subject"] . "', '" . $_POST["contactText"] . "', '" . $_SESSION["username"] . "', '" . $nowFormat . "')"; 
+		if ($conn->query($sql) === TRUE) {
+			$newRecord = TRUE;
+		} else {
+			echo "Error: " . $sql . "<br>" . $conn->error;
+		}
+	}
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,14 +38,14 @@
 	<meta charset="UTF-8">
 </head>
 <body>
-<?php include 'Navbar.php' ?>
+<?php include_once 'Navbar.php' ?>
 <div class="container">
 	<div id="contactBox" class="information">
 		<h2 class="information-header">Contact Us</h2>
-		<form id="contactFrm" method="post" action="" class="information-container">
+		<form id="contactFrm" method="post" action="<?php echo $_SERVER["PHP_SELF"];?>" class="information-container">
 			<input id="contactField" name="subject" type="text" placeholder="Subject" maxlength="45"><br>
 		</form>
-		<textarea form ="contactFrm" name="contactText" ></textarea>
+		<textarea form ="contactFrm" name="contactText" maxlength="450"></textarea>
 		<button type="submit" form="contactFrm" value="Submit">Send</button>
 	</div>
 </div>

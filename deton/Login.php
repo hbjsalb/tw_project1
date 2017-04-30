@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 if(isset($_POST["username"]) && isset($_POST["password"])) {
@@ -26,6 +25,14 @@ if(isset($_POST["username"]) && isset($_POST["password"])) {
 		    $row = $result->fetch_assoc();
 			$credentials = true;
 			$_SESSION["id"] = $row["Id"];
+			$_SESSION["username"] = $row["Username"];
+			if ($row["Role"] == "ADM")
+			{
+				$_SESSION["role"] = "admin";
+			} else 
+			{
+				$_SESSION["role"] = "client";
+			}
 			$newURL = "http://localhost/deton/";
 			header('Location: '.$newURL);
 	   }
@@ -34,6 +41,7 @@ if(isset($_POST["username"]) && isset($_POST["password"])) {
 	$conn->close();
 }
 ?>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Deton</title>
