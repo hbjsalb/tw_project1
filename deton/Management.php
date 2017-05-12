@@ -12,9 +12,12 @@ include 'Connection.php';
 </head>
 <body>
 <?php include_once 'NavbarAdm.php' ?>
-<button onclick="myFunction()">Add a new one</button>
-<img src="img/add.png" alt="add" onclick="myFunction()" />
-
+<div class="container">
+	<div id="managementBox" class="management">
+		<img src="img/store.png" id="addImage" alt="add" onclick="myFunction()" />
+		<img src="img/remove.png" id="removeImage" alt="remove" />
+	</div>
+</div>
 
 <script>
 function myFunction() {
