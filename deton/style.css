@@ -11,7 +11,7 @@ body {
 	
 }
 .container {
-	width: 80%;
+	width: 90%;
 	margin: 0 auto;
 }
 
@@ -257,7 +257,7 @@ select {
 }
 
 #scheduleBtn {
-    width: 455px;
+    width: 513px;
     margin-top: 1%;
 }
 
@@ -277,8 +277,26 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
+.management {
+    width: 600px;
+    margin: 17px auto;
+    margin-top: 8%;
+    border-radius: 25px;
+    border: 2px solid gray;
+    padding: 56px;
+}
 
+.management img {
+    border-radius: 10px;
+    width: 196px;
+    height: 201px;
+    margin-left: 11%;
+}
 
+#removeImage {
+    height: 177px;
+    width: 190px;
+}
 
 
 
