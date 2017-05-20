@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'Connection.php';
-$sql = "SELECT * FROM convicts";
+$sql = "SELECT * FROM convicts ORDER BY Full_name, Begin_date ASC";
 $result = $conn->query($sql);
 $ok=false;
 
@@ -15,11 +15,11 @@ $ok=false;
 </head>
 <body>
 
-<div class="container">
+<div class="container2">
 	<h2 class="release-header">Release convicts</h2>
 	<form action="" method="post">
 	<!-- TABLE -->
-	<table class="table table-action" id="testtable">
+	<table class="table table-action">
 	  
 	  <thead>
 		<tr>
@@ -51,7 +51,7 @@ $ok=false;
 	  </tbody>
 	</table>
 	<!-- END TABLE -->
-	<input type="submit" value="Release" name="del" />
+	<input type="submit" value="Release" name="del" id="delBtn" />
 	</form>
 	<?php
 		if(isset($_POST["del"])) {

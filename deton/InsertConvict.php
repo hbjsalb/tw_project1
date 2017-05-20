@@ -1,4 +1,5 @@
 <?php
+session_start();
 if(isset($_POST["fullname"])) {
 	include 'Connection.php';
 	if ($_POST["severity"] == 'class1')	{
