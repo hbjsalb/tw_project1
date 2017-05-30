@@ -1,38 +1,15 @@
 <?php
 session_start();
-if(isset($_POST["submit"])) {
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
-
-	// Create connection
-	$conn = new mysqli($servername, $username, $password);
-
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	} 
-
-	// make deton the current db
-	$db_selected = mysqli_select_db($conn, "deton");
-	if (!$db_selected) {
-		die ('Can\'t use deton : ' . mysql_error());
-	}
-	
-	if ($_FILES["fileToUpload"]["size"] != 0) {
-		$imageName = mysql_real_escape_string($_FILES["fileToUpload"]["name"]);
-		$imageData = mysql_real_escape_string(file_get_contents($_FILES["fileToUpload"]["tmp_name"]));
-		$imageType = mysql_real_escape_string($_FILES["fileToUpload"]["type"]);
-		
-		if (substr($imageType,0,5) == "image") {
-			$sql = "UPDATE users SET Image_Name = '" . $imageName . "', Image = '" . $imageData . "' WHERE Id = '" . $_SESSION["id"] . "'";
-			if ($conn->query($sql) === TRUE) {
-				echo "row updataed";
-			}
-		} else {
-			echo "not image";
-		}
-		
-	}
+include 'Connection.php';
+$sql = "SELECT * FROM users WHERE Username = '" . $_SESSION["username"] . "'";
+$result = $conn->query($sql);
+if (isset($_POST["submit"])) {
+	move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "profile/".$_FILES['fileToUpload']['name']);
+	$sqlPicture = "UPDATE users SET Image = '" . $_FILES['fileToUpload']['name'] . "' WHERE Username = '" . $_SESSION["username"] . "'";
+	$resultPicture = $conn->query($sqlPicture);
+	$sqlData = "UPDATE users SET Firstname = '" . $_POST["firstname"] . "', Surname = '" . $_POST["surname"] . "', Phone = '" . $_POST["phone"] . "' WHERE Username ='" . $_SESSION["username"] . "'";
+	$resultData = $conn->query($sqlData);
+	echo "<meta http-equiv='refresh' content='0'>";
 }
 ?>
 <!DOCTYPE html>
@@ -53,17 +30,21 @@ if ($_SESSION["role"] == $_roleClient)
 	include_once 'NavbarAdm.php';
 }
 ?>
-<?php
-include 'showimage.php';
-?>
+
 <div class="container">
+	<div id="userBox" class="userArea">
+		<span id="userDisplay"><?php echo $_SESSION["username"]; ?></span>
+	</div>
 	<div id="profileBox" class="profile">
 		<form id="profileFrm" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" class="profile-container" enctype="multipart/form-data">	
-			<img id="profilePicture" src="showimage.php?id=23" alt="No picture">
-			<span>Name: </span><input name="firstname" type="text"><br><br>
-			<span>Surname: </span><input name="surname" type="text"><br><br>
+			<?php $row = $result->fetch_assoc(); 
+				if (is_null($row["Image"]) || $row["Image"] == "") {
+					echo "<img id= 'profilePicture' src='profile/default.png' alt='No picture'>";
+			 } else  { echo "<img id= 'profilePicture' src='profile/" . $row["Image"] . "' alt='No picture'>"; }?>
+			<span>Name: </span><input name="firstname" type="text" value="<?php echo $row['Firstname'];?>"><br><br>
+			<span>Surname: </span><input name="surname" type="text" value="<?php echo $row['Surname'];?>"><br><br>
+			<span>Phone: </span><input name="phone" type="text" value="<?php echo $row['Phone'];?>"><br><br>
 			<span>Password: </span><input name="password" type="password"><br><br>
-			<span>Phone: </span><input name="phone" type="text"><br><br>
 			<input type="file" name="fileToUpload" id="fileToUploads">
 			<input type="submit" value="Save" name="submit">
 		</form>		

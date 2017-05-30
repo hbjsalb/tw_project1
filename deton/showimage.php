@@ -17,8 +17,9 @@
 	}
 	if (isset($_GET['id'])) {
 		$id = mysql_real_escape_string($_GET['id']); 
-		$sql = mysql_query("SELECT * FROM users WHERE Id = 'id'");
-		while ($row = mysql_fetch_assoc($sql)) {
+		$sql = "SELECT * FROM users WHERE Id ='" . $_GET['id'] . "'";
+		$result = $conn->query($sql)
+		while($row = $result->fetch_assoc()) {
 			$imageData = $row["Image"];
 			echo "imagineeee";
 		}

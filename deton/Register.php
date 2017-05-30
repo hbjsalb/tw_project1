@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 if(isset($_POST["username"]) && isset($_POST["firstname"]) && isset($_POST["surname"]) && isset($_POST["password"]) && isset($_POST["email"])){
 	$servername = "localhost";
@@ -39,6 +38,7 @@ if(isset($_POST["username"]) && isset($_POST["firstname"]) && isset($_POST["surn
 	$conn->close();
 }
 ?>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Register</title>

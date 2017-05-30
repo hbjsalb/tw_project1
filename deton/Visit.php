@@ -22,9 +22,13 @@ if(isset($_POST["scheduleDate"])) {
 		$visitCheckerU = false;
 	}
 	if ($visitCheckerD == true && $visitCheckerC == true && $visitCheckerU == true) {
+		$sqlName = "SELECT Full_name from convicts where Id = '" . $_POST["id"] . "'";
+		$resultName = $conn->query($sqlName);
+		$row = $resultName->fetch_assoc();
+		$fullname = $row["Full_name"];
 		$sql = "INSERT INTO visit (Username, Username_id, Convict_name, 
 		Convict_id, Citizenship, Relationship, Type_of_visit, Objects, Co_visitor1, Co_visitor2, Visit_date) 
-		VALUES ('" . $_SESSION["username"] . "', '" . $_SESSION["id"] . "', '" . $_POST["name"] . "', '" . $_POST["id"] . 
+		VALUES ('" . $_SESSION["username"] . "', '" . $_SESSION["id"] . "', '" . $fullname . "', '" . $_POST["id"] . 
 		"', '" . $_POST["citizenship"] . "', '" . $_POST["relationship"] . "', '" . $_POST["visit"] . "', '" . $_POST["objects"] . 
 		"', '" . $_POST["guest1"] . "', '" . $_POST["guest2"] . "', '" . $_POST["scheduleDate"] . "')";
 		if ($conn->query($sql) === TRUE) {
@@ -61,7 +65,7 @@ if ($_SESSION["role"] == $_roleClient) {
 			<form id="scheduleFrm" action="" method="post" class="schedule-container">
 				<?php if(isset($visitCheckerD) && $visitCheckerD == false){ ?>
 					<script type="text/javascript">
-						alert("The convict has another visit at that date. Please select choose another day!");
+						alert("The convict has another visit at that date. Please, choose another day!");
 					</script>
 				<?php } else if ((isset($visitCheckerC) && $visitCheckerC == false)) { ?>
 					<script type="text/javascript">
@@ -73,7 +77,7 @@ if ($_SESSION["role"] == $_roleClient) {
 					</script>
 				<?php } ?>
 				<span>Choose date:</span><input type="date" name="scheduleDate" required="required" min="<?php echo htmlspecialchars($nowFormat); ?>"><br>	
-				<span>Convict name:</span><input name="name" type="text" required="required"><br>
+				<!--<span>Convict name:</span><input name="name" type="text" required="required"><br> -->
 				<span>Convict id:</span><input name="id" type="number" required="required"><br>
 				<span>Citizenship:</span><input name="citizenship" type="text" required="required"><br>
 				<span>Relationship:</span>

@@ -162,3 +162,7 @@ input[type="submit"]:focus {
   border-radius: 40px;
   font-size: 30px;
 }
+
+::-webkit-scrollbar {
+    display: none;
+}

@@ -1,33 +1,34 @@
 <?php
 session_start();
 include 'Connection.php';
-$sql = "SELECT * FROM convicts ORDER BY Full_name, Begin_date ASC";
+$sql = "SELECT * FROM messages ORDER BY Date_reception DESC";
 $result = $conn->query($sql);
 $ok=false;
-
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Release</title>
+	<title>Messages</title>
 	<link rel="stylesheet" type="text/css" href="table.css">
 	<meta charset="UTF-8">
 </head>
 <body>
-
+<?php include_once 'NavbarAdm.php' ?>
 <div class="container2">
-	<h2 class="release-header">Release convicts</h2>
+	<h2 class="release-header">All messages</h2>
 	<form action="" method="post">
 	<!-- TABLE -->
-	<table class="table table-action">
+	<table class="table table-action" id="testtable">
 	  
 	  <thead>
 		<tr>
 		  <th class="t-small"></th>
 		  <th class="t-small">ID</th>
-		  <th>Full Name</th>
-		  <th class="t-medium">Jail Date</th>
-		  <th class="t-medium">Release Date</th>
+		  <th>Username</th>
+		  <th class="t-medium">Subject</th>
+		  <th class="t-medium">Content</th>
+		  <th class="t-medium">Date</th>
 		</tr>
 	  </thead>
 	  
@@ -36,11 +37,12 @@ $ok=false;
 		 <?php if ($result && $result->num_rows > 0) {
 					while($row = $result->fetch_assoc()) { ?>
 					  <tr>
-						 <td><label><input name="num[]" type="checkbox" value="<?php echo $row['Id'];?>"></form></label></td>
-						 <td id= "sper"><?php echo $row["Id"] ?></td>
-						 <td><?php echo $row["Full_name"] ?></td>
-						 <td><?php echo $row["Begin_date"] ?></td>
-						 <td><?php echo $row["End_date"] ?></td>
+						 <td><label><input name="num[]" type="checkbox" value="<?php echo $row['Message_id'];?>"></form></label></td>
+						 <td id= "sper"><?php echo $row["Message_id"] ?></td>
+						 <td><?php echo $row["Username"] ?></td>
+						 <td><?php echo $row["Subject"] ?></td>
+						 <td><?php echo $row["Content"] ?></td>
+						 <td><?php echo $row["Date_reception"] ?></td>
 					  </tr>
 				 <?php
 						}
@@ -51,13 +53,13 @@ $ok=false;
 	  </tbody>
 	</table>
 	<!-- END TABLE -->
-	<input type="submit" value="Release" name="del" id="delBtn" />
+	<input type="submit" value="Delete Messages" name="del" id="delBtn" />
 	</form>
 	<?php
 		if(isset($_POST["del"])) {
 			$box=$_POST["num"];
 			while(list($key,$val) = @each ($box)) {
-				$sql="DELETE FROM convicts WHERE Id = '" . $val . "'";
+				$sql="DELETE FROM messages WHERE Message_id = '" . $val . "'";
 				if ($conn->query($sql) === TRUE) {
 				$ok=true;
 			} else {
@@ -70,9 +72,8 @@ $ok=false;
 		</script>
 		<?php
 		}
-		?>
+	?>
 	
-
 </div>
 </body>
 </html>

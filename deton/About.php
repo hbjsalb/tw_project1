@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +11,7 @@
 	<meta charset="UTF-8">
 </head>
 <body>
-<?php include 'Navbar.php' ?>
+<?php include_once 'Navbar.php' ?>
 
 <div class="container">
 	<div id="aboutBox" class="information">
@@ -14,7 +19,7 @@
 		<ul>
 			<li><span>Small and young team</span></li>
 			<li><span>Entuziastic people</span></li>
-			<li><span>Very dynamic and creative crew</span></li>
+			<li><span>Very dynamic and creative guys</span></li>
 			<li><span>Truly professionals</span></li>
 			<li><span>We work smart not hard</span></li>
 			<li><span>We love programming</span></li>
@@ -23,6 +28,6 @@
 	</div>
 </div>
 
-
+<img src="Print.php?id=19" />
 </body>
 </html>
