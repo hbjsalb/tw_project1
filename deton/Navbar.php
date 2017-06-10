@@ -9,6 +9,7 @@
 <header>
 	<div class="container">
 		<a href="index.php"><img src="img/logo.png" alt="LOGO" class="logo"></a>
+		<a href="Logout.php"><img id="logoutBtn" src="img/logout.png" alt="logout" title="Logout"></a>
 		<nav>
 			<ul>
 				<li><a href="index.php">Home</a></li>
