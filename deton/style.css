@@ -145,7 +145,7 @@ textarea {
 .profile {
   width: 600px;
   margin: 17px auto;
-  margin-top: 7%;
+  margin-top: 1%;
   border-radius: 25px;
   border: 2px solid gray;
   padding: 20px;
@@ -298,26 +298,44 @@ input[type=number]::-webkit-outer-spin-button {
     width: 190px;
 }
 
-
-
-
-
-
-table { border: solid black thin;}
-
-th { border: solid red thin; }
-
-td { border: solid blue thin;}
-
 #visit {
 	width: 70%;
 }
 
+.userArea {
+	font-size: 30px;
+    color: gray;
+    text-align: center;
+    margin-top: 1%;
+    font-family: cursive;
+    font-style: italic;
+	cursor: context-menu;
+	transition: 500ms;
+}
 
+::-webkit-scrollbar {
+    display: none;
+}
 
+#userDisplay:hover {
+	color: black;  
+	text-decoration: underline;
+	transition: 300ms;
+}
 
+#logoutBtn {
+	margin-top: 2%;
+	margin-left: 3%;
+	width: 30px;
+	height: 33px;
+	border: 1px solid gray;
+}
 
-
+#logoutBtn:hover {
+	border: 1px solid lightblue;
+    border-radius: 10px;
+	transition: 300ms;
+}
 
 
 

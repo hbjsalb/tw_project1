@@ -1,18 +1,38 @@
 <?php
 session_start();
-include 'Connection.php';
-$displayAdm = false;
-$displayUsr = false;
-$displayBtn = false;
-$sqlAdm = "SELECT * FROM visit WHERE status = 'P' ORDER BY Visit_date DESC";
-$sqlUsr = "SELECT * FROM visit WHERE Username_id = '" . $_SESSION["id"] . "' ORDER BY Visit_date ASC";
-$resultAdm = $conn->query($sqlAdm);
-$resultUsr = $conn->query($sqlUsr);
-if($resultAdm->num_rows > 0) {
-	$displayAdm = true;
-}
-if($resultUsr->num_rows > 0) {
-	$displayUsr = true;
+if ($_SESSION["isLogged"] == true) {
+	$nowFormat = date("Y-m-d");
+	include 'Connection.php';
+	$displayAdm = false;
+	$displayUsr = false;
+	$displayBtn = false;
+	$sqlCheckReq = "SELECT * FROM visit WHERE status = 'P'";
+	$resultCheckReq = $conn->query($sqlCheckReq);
+	if ($resultCheckReq && $resultCheckReq->num_rows > 0) {
+		while($rowCheckReq = $resultCheckReq->fetch_assoc()) {
+			if ($rowCheckReq["Visit_date"] <= $nowFormat) {
+				$sql="UPDATE visit SET Status = 'N' WHERE Visit_id = '" . $rowCheckReq["Visit_id"] . "'";
+				if ($conn->query($sql) === TRUE) {
+					$ok=true;
+				} else {
+					echo "Error deleting record: " . $conn->error;
+				}
+			}
+		}		
+	}	
+	$sqlAdm = "SELECT * FROM visit WHERE status = 'P' ORDER BY Visit_date ASC";
+	$sqlUsr = "SELECT * FROM visit WHERE Username_id = '" . $_SESSION["id"] . "' ORDER BY Visit_date DESC";
+	$resultAdm = $conn->query($sqlAdm);
+	$resultUsr = $conn->query($sqlUsr);
+	if($resultAdm->num_rows > 0) {
+		$displayAdm = true;
+	}
+	if($resultUsr->num_rows > 0) {
+		$displayUsr = true;
+	}
+} else {
+	$newURL = "http://localhost/deton/login.php";
+	header('Location: '.$newURL);	
 }
 
 ?>
@@ -32,7 +52,7 @@ if ($_SESSION["role"] == $_roleClient) {
 	include_once 'Navbar.php';	
 	if ($displayUsr == true) { ?>
 	<div class="container2">
-	<h2 class="release-header">Curent requests</h2>
+	<h2 class="release-header">All requests</h2>
 	<form action="" method="post">
 	<!-- TABLE -->
 	<table class="table table-action">
