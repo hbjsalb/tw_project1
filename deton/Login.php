@@ -1,29 +1,13 @@
 <?php
 session_start();
 if(isset($_POST["username"]) && isset($_POST["password"])) {
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$credentials = false;
-
-	// Create connection
-	$conn = new mysqli($servername, $username, $password);
-
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	} 
-
-	// make deton the current db
-	$db_selected = mysqli_select_db($conn, "deton");
-	if (!$db_selected) {
-		die ('Can\'t use deton : ' . mysql_error());
-	}
-	
+	include 'Connection.php';	
 	$result=$conn->query("SELECT * FROM users WHERE Username= '" .  $_POST["username"] . "' AND Password = '" .  $_POST["password"] . "'");
 	if($result->num_rows > 0)
 	   {
 		    $row = $result->fetch_assoc();
 			$credentials = true;
+			$_SESSION["isLogged"] = true;
 			$_SESSION["id"] = $row["Id"];
 			$_SESSION["username"] = $row["Username"];
 			if ($row["Role"] == "ADM")
@@ -33,7 +17,7 @@ if(isset($_POST["username"]) && isset($_POST["password"])) {
 			{
 				$_SESSION["role"] = "client";
 			}
-			$newURL = "http://localhost/deton/";
+			$newURL = "http://localhost/deton/index.php";
 			header('Location: '.$newURL);
 	   }
 	

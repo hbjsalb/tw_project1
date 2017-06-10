@@ -1,10 +1,14 @@
 <?php
 session_start();
-include 'Connection.php';
-$sql = "SELECT * FROM convicts ORDER BY Full_name, Begin_date ASC";
-$result = $conn->query($sql);
-$ok=false;
-
+if ($_SESSION["isLogged"] == true) {
+	include 'Connection.php';
+	$sql = "SELECT * FROM convicts ORDER BY Full_name, Begin_date ASC";
+	$result = $conn->query($sql);
+	$ok=false;
+} else {
+	$newURL = "http://localhost/deton/login.php";
+	header('Location: '.$newURL);
+}
 ?>
 <!DOCTYPE html>
 <html>
