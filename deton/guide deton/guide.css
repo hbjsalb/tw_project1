@@ -1,0 +1,27 @@
+body {
+    background-color: #ade6db;
+	margin: 0;
+}
+.container {
+	width: 80%;
+	margin: 0 auto;
+	color: darkcyan;
+}
+
+h1 {
+	text-align: center;
+}
+
+h2 {
+	text-align: left;
+}
+
+img {
+	width: 800px;
+	height: 600px;
+	margin: 1%;
+}
+
+span {
+	display: block;
+}
