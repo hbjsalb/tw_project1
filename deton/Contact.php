@@ -1,5 +1,6 @@
 <?php
 session_start();
+if ($_SESSION["isLogged"] == true) {
 if(isset($_POST["subject"]) && isset($_POST["contactText"])) {
 	$servername = "localhost";
 	$username = "root";
@@ -27,6 +28,10 @@ if(isset($_POST["subject"]) && isset($_POST["contactText"])) {
 			echo "Error: " . $sql . "<br>" . $conn->error;
 		}
 	}
+}
+} else {
+	$newURL = "http://localhost/deton/login.php";
+	header('Location: '.$newURL);
 }
 ?>
 
