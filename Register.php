@@ -1,44 +1,59 @@
-<!DOCTYPE html>
 <?php
 if(isset($_POST["username"]) && isset($_POST["firstname"]) && isset($_POST["surname"]) && isset($_POST["password"]) && isset($_POST["email"])){
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
+	include 'Connection.php';
 	$usernameExists = false;
-
-	// Create connection
-	$conn = new mysqli($servername, $username, $password);
-
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	} 
-
-	// make deton the current db
-	$db_selected = mysqli_select_db($conn, "deton");
-	if (!$db_selected) {
-		die ('Can\'t use deton : ' . mysql_error());
-	}
-
-	$result=$conn->query("SELECT * FROM users WHERE Username= '" .  $_POST["username"] . "'");
+	
+	$username = $_POST ['username'];
+	$firstname = $_POST ['firstname'];
+	$surname = $_POST ['surname'];
+	$password = $_POST ['password'];
+	$phone = $_POST ['phone'];
+	$email = $_POST ['email'];
+	$age = $_POST ['age'];
+	$sex = $_POST ['sex'];
+	
+	$stmt = $conn->prepare("SELECT * FROM users WHERE Username = ?");
+	$stmt->bind_param("s", $uid);
+	
+	$uid = $username;
+	$stmt-> execute();
+	
+	$result = $stmt->get_result();
+	
 	 if($result->num_rows > 0)
 	   {
 			$usernameExists = true;
 	   }
 		
 	if(!$usernameExists){
-		$sql = "INSERT INTO users (Username, Firstname, Surname, Password, Phone, Email, Age, Sex) VALUES ('" . $_POST["username"] . "', '" . $_POST["firstname"] . "','" . $_POST["surname"] . "','" . $_POST["password"] . "','" . $_POST["phone"] . "','" . $_POST["email"] . "','" . $_POST["age"] . "', '" . $_POST["sex"] . "')";
+		
+		$stmt = $conn->prepare ("INSERT INTO users (Username, Firstname, Surname, Password, Phone, Email, Age, Sex) VALUES (?,?,?,?,?,?,?,?)");
+		$stmt->bind_param("ssssssss",$uid, $nume, $prenume, $pw, $telefon, $mail, $varsta, $gen);
+		$uid = $username;
+		$nume = $firstname;
+		$prenume = $surname;
+		$pw = $password;
+		$telefon = $phone;
+		$mail = $email;
+		$varsta = $age;
+		$gen = $sex;
+		
+		$stmt->execute();
+		$result= $stmt->get_result();
+		
+	
+		
 
-		if ($conn->query($sql) === TRUE) {
+		if (!$result ) {
 			$newURL = "http://localhost/deton/login.php";
 			header('Location: '.$newURL);
 		} else {
-			echo "Error: " . $sql . "<br>" . $conn->error;
+			echo "Error: " . $result . "<br>" . $conn->error;
 		}
 	}
-
-	$conn->close();
 }
 ?>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Register</title>

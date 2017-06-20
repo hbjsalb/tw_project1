@@ -1,6 +1,11 @@
 <?php
 session_start();
-include 'Connection.php';
+if ($_SESSION["isLogged"] == true) {
+	include 'Connection.php';
+} else {
+	$newURL = "http://localhost/deton/login.php";
+	header('Location: '.$newURL);
+}
 ?>
 
 <!DOCTYPE html>
